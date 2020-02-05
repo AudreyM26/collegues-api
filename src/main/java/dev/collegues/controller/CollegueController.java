@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.collegues.service.CollegueService;
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/collegues")
 public class CollegueController {
@@ -21,7 +21,6 @@ public class CollegueController {
 		this.collegueService = collegueService;
 	}
 
-	@CrossOrigin
 	@GetMapping
 	public List<String> listerMatricules() {
 		return this.collegueService.listerMatricules();
@@ -29,7 +28,6 @@ public class CollegueController {
 	
 	// requete GET clients?nom=XXX , methode executee avec url clients avec
 	// parametre
-	@CrossOrigin
 	@GetMapping(params = "nom")
 	public List<String> rechercherColleguesParNom(@RequestParam("nom") String nomRequeteHttp) {
 		return this.collegueService.rechercherColleguesParNom(nomRequeteHttp);
