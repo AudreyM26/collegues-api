@@ -1,10 +1,8 @@
 package dev.collegues.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -38,14 +36,19 @@ public class CollegueService {
 		return this.collegueRepository.findByMatricule(matriculeRequest).orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
 	}
 	
-	public Collegue creerCollegue(Collegue colRecu) {
-		colRecu.setNom(colRecu.getNom().toUpperCase());
-		/*
-		 * if (this.collegueRepository.existsByNomAndPrenoms(colRecu.getNom(),
-		 * colRecu.getPrenoms())) { throw new EntityExistsException(); }
-		 */
-
-		return this.collegueRepository.save(colRecu);
+	public Collegue createCollegue(String nom,String prenoms, LocalDate dateNaissance, String photoUrl) {
+		
+		Long numeroCol = (this.collegueRepository.count()+1);
+		String matricule = "M";
+		if(numeroCol < 10) {
+			matricule += "0";
+		}
+		matricule += numeroCol;
+		String email = prenoms+"."+nom+"@societe.com";
+		Collegue col = new Collegue(matricule,nom.toUpperCase(),prenoms,email.toLowerCase(),dateNaissance,photoUrl);
+		
+		this.collegueRepository.save(col);
+		//String message ="Le collègue a bien été enregistré : matricule "+matricule;
+		return this.collegueRepository.save(col);
 	}
-
 }

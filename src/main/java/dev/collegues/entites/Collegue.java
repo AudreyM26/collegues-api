@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -19,21 +20,22 @@ public class Collegue {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotEmpty
 	private String matricule;
 
-	@NotEmpty
+	@NotNull
 	@Size(min = 3, max = 50)
 	private String nom;
 
-	@NotEmpty
+	@NotNull
 	@Size(min = 3)
 	private String prenoms;
 
 	private String email;
 
+	@NotNull
 	private LocalDate dateDeNaissance;
 
+	@NotNull
 	private String photoUrl;
 
 	public Collegue() {
