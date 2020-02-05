@@ -48,7 +48,15 @@ public class CollegueService {
 		Collegue col = new Collegue(matricule,nom.toUpperCase(),prenoms,email.toLowerCase(),dateNaissance,photoUrl);
 		
 		this.collegueRepository.save(col);
-		//String message ="Le collègue a bien été enregistré : matricule "+matricule;
+		
 		return this.collegueRepository.save(col);
+	}
+	
+	public Collegue updateCollegueParMatricule(String matricule,String photoUrl) {
+		
+		Collegue col = this.collegueRepository.findByMatricule(matricule).orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
+		col.setPhotoUrl(photoUrl.trim());
+		this.collegueRepository.save(col);
+		return col;
 	}
 }

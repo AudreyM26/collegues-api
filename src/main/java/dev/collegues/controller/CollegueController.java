@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,8 +48,8 @@ public class CollegueController {
 
 	// requete GET clients?nom=XXX , methode executee avec url clients avec
 	// parametre
-	@GetMapping
-	@RequestMapping(path = "/{matriculeReqHttp}")
+	@GetMapping("{matriculeReqHttp}")
+	//@RequestMapping(path = "/{matriculeReqHttp}")
 	public Collegue rechercherCollegueParMatricule(@PathVariable @Valid String matriculeReqHttp) {
 		return this.collegueService.rechercherCollegueParMatricule(matriculeReqHttp);
 	}
@@ -64,5 +66,11 @@ public class CollegueController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.collegueService.createCollegue(colleguePost.getNom(),
 				colleguePost.getPrenoms(), colleguePost.getDateDeNaissance(), colleguePost.getPhotoUrl()));
 	}
-
+	
+	@PatchMapping("{matriculePost}")
+	public ResponseEntity<Collegue> updateCollegueParMatricule(@PathVariable String matriculePost, @RequestBody Collegue colleguePatch) {
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.collegueService.updateCollegueParMatricule(matriculePost,colleguePatch.getPhotoUrl()));
+	}
+	
 }
