@@ -1,6 +1,7 @@
 package dev.collegues.entites;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

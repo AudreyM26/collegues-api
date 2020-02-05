@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 
 import dev.collegues.entites.Collegue;
+import dev.collegues.exception.CollegueNonTrouveException;
 import dev.collegues.repository.CollegueRepository;
+
 
 @Service
 public class CollegueService {
@@ -31,6 +34,10 @@ public class CollegueService {
 				.collect(Collectors.toList());
 	}
 
+	public Collegue rechercherCollegueParMatricule(String matriculeRequest){
+		return this.collegueRepository.findByMatricule(matriculeRequest).orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
+	}
+	
 	public Collegue creerCollegue(Collegue colRecu) {
 		colRecu.setNom(colRecu.getNom().toUpperCase());
 		/*
