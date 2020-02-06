@@ -10,7 +10,6 @@ import dev.collegues.entites.Collegue;
 import dev.collegues.exception.CollegueNonTrouveException;
 import dev.collegues.repository.CollegueRepository;
 
-
 @Service
 public class CollegueService {
 
@@ -22,8 +21,7 @@ public class CollegueService {
 	}
 
 	public List<String> listerMatricules() {
-		return this.collegueRepository.findAll().stream().map(col -> col.getMatricule())
-				.collect(Collectors.toList());
+		return this.collegueRepository.findAll().stream().map(col -> col.getMatricule()).collect(Collectors.toList());
 	}
 
 	public List<String> rechercherColleguesParNom(String nomRequete) {
@@ -32,28 +30,36 @@ public class CollegueService {
 				.collect(Collectors.toList());
 	}
 
-	public Collegue rechercherCollegueParMatricule(String matriculeRequest){
-		return this.collegueRepository.findByMatricule(matriculeRequest).orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
+	public Collegue rechercherCollegueParMatricule(String matriculeRequest) {
+		return this.collegueRepository.findByMatricule(matriculeRequest)
+				.orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
 	}
-	
-	public Collegue createCollegue(Collegue collegueRecu) {	
-		Long numeroCol = (this.collegueRepository.count()+1);
+
+	public Collegue createCollegue(Collegue collegueRecu) {
+		Long numeroCol = (this.collegueRepository.count() + 1);
 		String matricule = "M";
-		if(numeroCol < 10) {
+		if (numeroCol < 10) {
 			matricule += "0";
 		}
 		matricule += numeroCol;
 		collegueRecu.setNom(collegueRecu.getNom().toUpperCase());
 		collegueRecu.setMatricule(matricule);
-	
-		//return collegueRecu;
+
+		// return collegueRecu;
 		return this.collegueRepository.save(collegueRecu);
 	}
-	
-	public Collegue updateCollegueParMatricule(String matricule,String photoUrl) {
-		
-		Collegue col = this.collegueRepository.findByMatricule(matricule).orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
-		col.setPhotoUrl(photoUrl.trim());
+
+	public Collegue updateCollegueParMatricule(String matricule, Collegue collegueModif) {
+
+		Collegue col = this.collegueRepository.findByMatricule(matricule)
+				.orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
+		if (collegueModif.getPhotoUrl() != null) {
+			col.setPhotoUrl(collegueModif.getPhotoUrl().trim());
+		}
+		if (collegueModif.getEmail() != null) {
+			col.setEmail(collegueModif.getEmail().toLowerCase());
+		}
+
 		this.collegueRepository.save(col);
 		return col;
 	}

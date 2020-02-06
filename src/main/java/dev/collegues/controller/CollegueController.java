@@ -68,7 +68,7 @@ public class CollegueController {
 	@PatchMapping("{matriculePost}")
 	public ResponseEntity<Collegue> updateCollegueParMatricule(@PathVariable String matriculePost, @RequestBody Collegue colleguePatch) {
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(this.collegueService.updateCollegueParMatricule(matriculePost,colleguePatch.getPhotoUrl()));
+		return ResponseEntity.status(HttpStatus.OK).body(this.collegueService.updateCollegueParMatricule(matriculePost,colleguePatch));
 	}
 	
 }
