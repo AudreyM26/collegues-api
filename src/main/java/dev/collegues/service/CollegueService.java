@@ -36,20 +36,18 @@ public class CollegueService {
 		return this.collegueRepository.findByMatricule(matriculeRequest).orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
 	}
 	
-	public Collegue createCollegue(String nom,String prenoms, LocalDate dateNaissance, String photoUrl) {
-		
+	public Collegue createCollegue(Collegue collegueRecu) {	
 		Long numeroCol = (this.collegueRepository.count()+1);
 		String matricule = "M";
 		if(numeroCol < 10) {
 			matricule += "0";
 		}
 		matricule += numeroCol;
-		String email = prenoms+"."+nom+"@societe.com";
-		Collegue col = new Collegue(matricule,nom.toUpperCase(),prenoms,email.toLowerCase(),dateNaissance,photoUrl);
-		
-		this.collegueRepository.save(col);
-		
-		return this.collegueRepository.save(col);
+		collegueRecu.setNom(collegueRecu.getNom().toUpperCase());
+		collegueRecu.setMatricule(matricule);
+	
+		//return collegueRecu;
+		return this.collegueRepository.save(collegueRecu);
 	}
 	
 	public Collegue updateCollegueParMatricule(String matricule,String photoUrl) {

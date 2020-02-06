@@ -62,9 +62,7 @@ public class CollegueController {
 	// POST /collegue
 	@PostMapping
 	public ResponseEntity<Collegue> createCollegue(@RequestBody @Valid Collegue colleguePost) {
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(this.collegueService.createCollegue(colleguePost.getNom(),
-				colleguePost.getPrenoms(), colleguePost.getDateDeNaissance(), colleguePost.getPhotoUrl()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.collegueService.createCollegue(colleguePost));
 	}
 	
 	@PatchMapping("{matriculePost}")

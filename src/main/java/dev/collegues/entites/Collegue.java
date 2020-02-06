@@ -22,20 +22,21 @@ public class Collegue {
 
 	private String matricule;
 
-	@NotNull
+	@NotEmpty
 	@Size(min = 3, max = 50)
 	private String nom;
 
-	@NotNull
+	@NotEmpty
 	@Size(min = 3)
 	private String prenoms;
 
+	@NotEmpty
 	private String email;
 
 	@NotNull
 	private LocalDate dateDeNaissance;
 
-	@NotNull
+	@NotEmpty
 	private String photoUrl;
 
 	public Collegue() {
