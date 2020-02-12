@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import dev.collegues.entites.Collegue;
+import dev.collegues.entites.ColleguePhoto;
 import dev.collegues.exception.CollegueNonTrouveException;
 import dev.collegues.repository.CollegueRepository;
 
@@ -29,7 +30,15 @@ public class CollegueService {
 		return this.collegueRepository.findByNom(nomRequete).stream().map(col -> col.getMatricule())
 				.collect(Collectors.toList());
 	}
-
+	
+	public List<ColleguePhoto> listerPhotosCollegue(){
+		return this.collegueRepository.findAll().stream().map(col -> {
+			ColleguePhoto c = new ColleguePhoto(col.getMatricule(),col.getPhotoUrl());
+			return c;
+		})
+				.collect(Collectors.toList());
+	}
+	
 	public Collegue rechercherCollegueParMatricule(String matriculeRequest) {
 		return this.collegueRepository.findByMatricule(matriculeRequest)
 				.orElseThrow(() -> new CollegueNonTrouveException("Collègue non trouvé"));
@@ -62,5 +71,10 @@ public class CollegueService {
 
 		this.collegueRepository.save(col);
 		return col;
+	}
+	
+	public Boolean existCollegue(String email) {
+		
+		return this.collegueRepository.existsByEmail(email);
 	}
 }

@@ -13,4 +13,6 @@ public interface CollegueRepository extends JpaRepository<Collegue, Integer>{
 
 	List<Collegue> findByNom(String nom);
 	Optional<Collegue> findByMatricule(String matricule);
+	
+	boolean existsByEmail(String email);
 }

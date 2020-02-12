@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.collegues.entites.Collegue;
+import dev.collegues.entites.ColleguePhoto;
 import dev.collegues.exception.CollegueNonTrouveException;
 import dev.collegues.service.CollegueService;
 
@@ -46,12 +47,16 @@ public class CollegueController {
 		return this.collegueService.rechercherColleguesParNom(nomRequeteHttp);
 	}
 
-	// requete GET clients?nom=XXX , methode executee avec url clients avec
-	// parametre
 	@GetMapping("{matriculeReqHttp}")
-	//@RequestMapping(path = "/{matriculeReqHttp}")
+	// @RequestMapping(path = "/{matriculeReqHttp}")
 	public Collegue rechercherCollegueParMatricule(@PathVariable @Valid String matriculeReqHttp) {
 		return this.collegueService.rechercherCollegueParMatricule(matriculeReqHttp);
+	}
+	
+	@GetMapping("/photos")
+	// @RequestMapping(path = "/{matriculeReqHttp}")
+	public List<ColleguePhoto> listerPhotosCollegue() {
+		return this.collegueService.listerPhotosCollegue();
 	}
 
 	@ExceptionHandler(value = { CollegueNonTrouveException.class })
@@ -64,11 +69,19 @@ public class CollegueController {
 	public ResponseEntity<Collegue> createCollegue(@RequestBody @Valid Collegue colleguePost) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.collegueService.createCollegue(colleguePost));
 	}
-	
+
 	@PatchMapping("{matriculePost}")
-	public ResponseEntity<Collegue> updateCollegueParMatricule(@PathVariable String matriculePost, @RequestBody Collegue colleguePatch) {
-		
-		return ResponseEntity.status(HttpStatus.OK).body(this.collegueService.updateCollegueParMatricule(matriculePost,colleguePatch));
+	public ResponseEntity<Collegue> updateCollegueParMatricule(@PathVariable String matriculePost,
+			@RequestBody Collegue colleguePatch) {
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(this.collegueService.updateCollegueParMatricule(matriculePost, colleguePatch));
 	}
-	
+
+	// requete GET clients?email=XXX , methode executee avec url clients avec
+	// parametre
+	@GetMapping(params = "email")
+	public boolean existCollegue(@RequestParam("email") String emailRequeteHttp) {
+		return this.collegueService.existCollegue(emailRequeteHttp);
+	}
 }
